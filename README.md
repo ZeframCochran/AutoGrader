@@ -3,16 +3,12 @@
 Roadmap:
 
 0. Check for Syntax errors
-
 1. Diff output
-
 2. Unit test student methods
-
 3. Gather student name from top comment
-
 4. Checks variable names for proper capitalization
 
-*From the Instructor:*
+**From the Instructor:**
 
 1. Your program's output must match the sample output provided
   * I will check this with something similar to diff.
