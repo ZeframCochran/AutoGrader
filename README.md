@@ -1,10 +1,10 @@
 # AutoGrader
 ## A tool to check student homework for the intro java class
 Features:
-Diff output
-Unit test student methods
-Gather student name from top comment
-Checks variable names for proper capitalization
+- Diff output
+- Unit test student methods
+- Gather student name from top comment
+- Checks variable names for proper capitalization
 
 ## From the Instructor:
 ### Your program’s output must match the sample output provided
