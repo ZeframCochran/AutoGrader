@@ -10,39 +10,62 @@ public class ShowInterestShell {
 	{
 	    //ask the required info, 
     	out("How many times do you want to run the program?");
-    	int iterations = kb.nextInt();
-			//create a for loop, 
-    		for(int line = 1; line <= iterations; line++ ){
-    			prompt();
-    		}
+    	int iterations = Integer.parseInt(kb.nextLine());
+		//create a for loop, 
+		prompt();    	
+		for(int line = 1; line < iterations; line++ ){
+			out("\n***************************************");
+			prompt();
+		}
     }
     
     //Ask the questions and print the table
     private static void prompt(){
-    	out("Enter your name:");
-    	String fName = kb.nextLine();
-    	out("Enter your last name:");
-    	String lName = kb.nextLine();
-    	out("Enter the initial deposit:");
-    	double deposit = kb.nextDouble();
-    	out("Enter the number of years you want to calculate the interest:");
-    	int years = kb.nextInt();
-    	out("Enter the annual interest rate:");
-    	double rate = kb.nextDouble();
-    	out("Enter the amount of your monthly deposit:");
-    	double amount = kb.nextDouble();
     	
-    	int periods = years;
-    	printTable(amount, periods, rate, deposit);
+    	double initialDeposit;
+    	int years;
+    	double interestRate;
+    	String fName;
+    	String lName;
+    	double yearlyDepositAmount;
+    	
+    	out("Enter your name:");
+    	//fName = kb.nextLine();
+    	
+    	out("Enter your last name:");
+    	//lName = kb.nextLine();
+    	
+    	out("Enter the initial deposit:");
+    	initialDeposit = 1000;//kb.nextDouble();
+    	
+    	out("Enter the number of years you want to calculate the interest:");
+    	years = 25;//kb.nextInt();
+    	
+    	out("Enter the annual interest rate:");
+    	interestRate = 6.5;//kb.nextDouble();
+    	
+    	out("Enter the amount of your yearly deposit:");
+    	yearlyDepositAmount = 100;//kb.nextDouble();
+    	
+    	printTable(yearlyDepositAmount, years, interestRate, initialDeposit);
+    	
     }
-	//include comments describing the method 
-	public static void printTable(double amount, int periods, double rate,double deposit) 
+    
+	//This method prints a table of our projected bank account. 
+	public static void printTable(double yearlyDeposit, int years, double rate,double balance) 
 	{
-      //create a for loop, 
-		for(int )
-		//calculate the amount of interest for each year,
-		// do other calculations
-		//print the info           	   
+		double interestRate = rate/100;
+		double interest;
+		out("Year\tInterest\tDeposit\tNew Balance");
+		out("start\t\t\t\t"+balance);
+		for(int year = 1; year <= years; year++){
+			//calculate the amount of interest for each year,
+			interest = Math.round(interestRate * balance);
+			balance +=(interest+yearlyDeposit);
+			out(year+"\t"+interest+"\t\t"+(double)Math.round(yearlyDeposit)+"\t"+(double)Math.round(balance));
+			// do other calculations
+			//print the info
+		}
     }
 
 	public static void out(String s){
