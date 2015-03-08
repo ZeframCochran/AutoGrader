@@ -3,6 +3,8 @@ package model;
 import java.util.Scanner;
 
 //include required comments
+//Jerod Ewert
+//11pm Lecture
 //import appropriate classes
 public class ShowInterestShell {
 	static Scanner kb = new Scanner(System.in);
@@ -51,20 +53,19 @@ public class ShowInterestShell {
     	
     }
     
-	//This method prints a table of our projected bank account. 
+	//This method prints a table of our projected bank account with interest. 
 	public static void printTable(double yearlyDeposit, int years, double rate,double balance) 
 	{
 		double interestRate = rate/100;
 		double interest;
+		
 		out("Year\tInterest\tDeposit\tNew Balance");
 		out("start\t\t\t\t"+balance);
+		
 		for(int year = 1; year <= years; year++){
-			//calculate the amount of interest for each year,
 			interest = Math.round(interestRate * balance);
 			balance +=(interest+yearlyDeposit);
 			out(year+"\t"+interest+"\t\t"+(double)Math.round(yearlyDeposit)+"\t"+(double)Math.round(balance));
-			// do other calculations
-			//print the info
 		}
     }
 
@@ -72,11 +73,4 @@ public class ShowInterestShell {
 		System.out.println(s);
 	}
 	
-	public static void printBackwards(String s){
-		if(s.length() > 1){
-			printBackwards(s.substring(1, s.length()));
-		}
-		System.out.print(s.charAt(0));
-	}
-
 }
