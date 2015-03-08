@@ -11,9 +11,10 @@ public class GradingController {
 			File level:
 				Check for file existance at the top level instead of every lower place.
 				Done: Compile
-				Get student name
+				Done: Get student name
+				Done: Check file for comments before each method
 				Check variable names
-				Check file for comments before each method
+					Capitalization only, others require human interaction
 			
 			Java level:
 				Unit test methods/Diff output
