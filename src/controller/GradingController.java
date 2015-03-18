@@ -8,8 +8,23 @@ import model.RuntimeChecks;
 
 public class GradingController {
 	private static boolean debug = true;
+	/*Instructor's Criteria:
+	 	1. Your program’s output must match the sample output provided (whitespace agnostic)
+		2. Proper logic (Check for method call in main?)
+		3. Proper variable naming (regex)
+		4. Proper indentation (not sure.)
+		5. Proper use of methods (uses printtable method?)
+		6. Proper use of comments (Good comment density)
+		7. Must provide comments at the beginning of your program with the following information
+		Name
+		Date created
+		 HW#
+		 Program description
+		8. You are not allowed to change any of the method’s headers
+		9. Programs written without methods will receive zero points
+		*/
 	/*
-	 * Main task: Refactor this ugly thing.
+	 * Main task: Support instructor's criteria
 	 * 		Break unit tests into separate classes.
 	Load the student work
 		For each solution:
