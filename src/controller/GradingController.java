@@ -6,31 +6,36 @@ import model.FileLevelChecks;
 public class GradingController {
 	private static boolean debug = true;
 	/*
+	 * Main task: Refactor this ugly thing.
 	Load the student work
 		For each solution:
 			File level:
-				Check for file existance at the top level instead of every lower place.
+				Check for file existence at the top level instead of every lower place.
 				Done: Compile
 				Done: Get student name
 				Done: Check file for comments before each method
-				Check variable names
-					Capitalization only, others require human interaction
+				Done: Check case of variable and class names
+				Done: List variable type and name for human grading
 			
 			Java level:
+				Detect package and class name.
 				Unit test methods/Diff output
 					show result.
 				Verify at least 1 additional method exists with reflection
-					ShowInterest show = new ShowInterest();
-					Class solution = show.getClass(); 
-					solution.getDeclaredMethods();
-					Method m = solution.getDeclaredMethod("",null);
-					m.invoke(show, null);
+					Call the printTable method and compare output to expected
+						Several tests would be nice.
+						Instructor's example first:
+							"25	648.0		100.0	10713.0"
+					Call main method and
+			misc:
+				Generate a report. maybe learn l4j.
+				Create unit tests instead of current structure.
 	*/
 	public static void main(String[] args){
 		
 		if(debug){
 			System.out.println("DEBUG MODE: passing constant file to test against");
-			String[] temp = {"/home/anony/Spring 2015/Projects/AutoGrader/src/model/ShowInterestShell.java"};
+			String[] temp = {"/home/anony/javaFiles/ShowInterestShell.java"};
 			args = temp;
 		}
 		
