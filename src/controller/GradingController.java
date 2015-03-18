@@ -1,16 +1,20 @@
 package controller;
-import java.lang.reflect.Method;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import model.FileLevelChecks;
+import model.RuntimeChecks;
 
 public class GradingController {
 	private static boolean debug = true;
 	/*
 	 * Main task: Refactor this ugly thing.
+	 * 		Break unit tests into separate classes.
 	Load the student work
 		For each solution:
 			File level:
-				Check for file existence at the top level instead of every lower place.
+				Done: Check for file existence at the top level instead of every lower place.
 				Done: Compile
 				Done: Get student name
 				Done: Check file for comments before each method
@@ -18,7 +22,7 @@ public class GradingController {
 				Done: List variable type and name for human grading
 			
 			Java level:
-				Detect package and class name.
+				Done: Detect package and class name.
 				Unit test methods/Diff output
 					show result.
 				Verify at least 1 additional method exists with reflection
@@ -47,12 +51,35 @@ public class GradingController {
 			System.exit(-1);
 		}
 		
-		FileLevelChecks flc = new FileLevelChecks(); 
-		System.out.println("File check result:" + flc.check(args[0]));
 		
+		for(int i = 0 ; i < args.length; i++){
+			FileLevelChecks flc = new FileLevelChecks(); 
+			RuntimeChecks rtc = new RuntimeChecks();
+			String content = getFileContent(args[i]);
+			String className = flc.check(args[i], content);
+			System.out.println("Runtime check result: " + rtc.checkFile(args[i], className));
+		}
+	}
+	public static String getFileContent(String file){
+		//Open the file
+		File input = new File(file);
+		if(!input.canRead()){
+			System.out.println("Could not read file: "+file);
+			System.exit(-1);
+		}
 		
-	
-	//Attempts to compile and reports the result
-	
-	}	
+		Scanner fileContent = null;
+		try {
+			fileContent = new Scanner(input);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String content = "";
+		while(fileContent.hasNextLine()){
+			content += fileContent.nextLine()+"\n";
+		}
+		fileContent.close();
+		return(content);
+	}
 }

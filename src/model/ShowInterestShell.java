@@ -10,10 +10,8 @@ public class ShowInterestShell {
 	static Scanner kb = new Scanner(System.in);
     public static void main(String[] args) 
 	{
-	    //ask the required info, 
     	out("How many times do you want to run the program?");
     	int iterations = Integer.parseInt(kb.nextLine());
-		//create a for loop, 
 		prompt();    	
 		for(int line = 1; line < iterations; line++ ){
 			out("\n***************************************");
@@ -27,27 +25,29 @@ public class ShowInterestShell {
     	double initialDeposit;
     	int years;
     	double interestRate;
-    	String fName;
-    	String lName;
+    	@SuppressWarnings("unused")
+		String fName;
+    	@SuppressWarnings("unused")
+		String lName;
     	double yearlyDepositAmount;
     	
     	out("Enter your name:");
-    	//fName = kb.nextLine();
+    	fName = kb.nextLine();
     	
     	out("Enter your last name:");
-    	//lName = kb.nextLine();
+    	lName = kb.nextLine();
     	
     	out("Enter the initial deposit:");
-    	initialDeposit = 1000;//kb.nextDouble();
+    	initialDeposit = kb.nextDouble();
     	
     	out("Enter the number of years you want to calculate the interest:");
-    	years = 25;//kb.nextInt();
+    	years = kb.nextInt();
     	
     	out("Enter the annual interest rate:");
-    	interestRate = 6.5;//kb.nextDouble();
+    	interestRate = kb.nextDouble();
     	
     	out("Enter the amount of your yearly deposit:");
-    	yearlyDepositAmount = 100;//kb.nextDouble();
+    	yearlyDepositAmount = kb.nextDouble();
     	
     	printTable(yearlyDepositAmount, years, interestRate, initialDeposit);
     	
