@@ -3,8 +3,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import model.FileLevelChecks;
-import model.RuntimeChecks;
+import tests.FileLevelChecks;
+import tests.RuntimeChecks;
 
 public class GradingController {
 	private static boolean debug = true;
