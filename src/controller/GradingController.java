@@ -2,17 +2,23 @@ package controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import tests.SourcecodeTest;
 
 import tests.FileLevelChecks;
 import tests.RuntimeChecks;
 
+import static controller.Log.*;
+
 public class GradingController {
 	private static boolean debug = true;
-	/*Instructor's Criteria:
+	/*Instructor's Criteria:(Checking method)
 	 	1. Your program’s output must match the sample output provided (whitespace agnostic)
 		2. Proper logic (Check for method call in main?)
 		3. Proper variable naming (regex)
 		4. Proper indentation (not sure.)
+			Regex to check indent level of any line ending in { or if()END\n!{ or for()END\n!{
+			Regex to check indent of the next non-blank line
+			Must be more than the previous line
 		5. Proper use of methods (uses printtable method?)
 		6. Proper use of comments (Good comment density)
 		7. Must provide comments at the beginning of your program with the following information
@@ -21,7 +27,7 @@ public class GradingController {
 		 HW#
 		 Program description
 		8. You are not allowed to change any of the method’s headers
-		9. Programs written without methods will receive zero points
+		9. Programs written without (at least 2) methods will receive zero points
 		*/
 	/*
 	 * Main task: Support instructor's criteria
@@ -68,11 +74,16 @@ public class GradingController {
 		
 		
 		for(int i = 0 ; i < args.length; i++){
+			String filename = args[i];
 			FileLevelChecks flc = new FileLevelChecks(); 
 			RuntimeChecks rtc = new RuntimeChecks();
-			String content = getFileContent(args[i]);
-			String className = flc.check(args[i], content);
-			System.out.println("Runtime check result: " + rtc.checkFile(args[i], className));
+			
+			String content = getFileContent(filename);
+			String className = flc.check(content);
+			
+			write("Runtime check result: " + rtc.checkFile(filename, className));
+
+			Log.flushToFile();
 		}
 	}
 	public static String getFileContent(String file){
@@ -87,7 +98,6 @@ public class GradingController {
 		try {
 			fileContent = new Scanner(input);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String content = "";

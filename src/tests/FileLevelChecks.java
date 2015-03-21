@@ -2,18 +2,19 @@ package tests;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import static controller.Log.*;
 
 public class FileLevelChecks {
 
 
-	public String check(String file, String content) {
+	public String check(String content) {
 		try {
 			
 			//Get student name
 			Pattern regex = Pattern.compile("([A-Z])\\w+\\s([A-Z])\\w+",0);
 			Matcher matcher = regex.matcher(content);
 			matcher.find();
-			System.out.println("\tName: "+matcher.group().trim());
+			write("\tName: "+matcher.group().trim());
 			
 			//Check for methods
 			regex = Pattern.compile("(\\/\\/|\\*\\/)");
@@ -22,7 +23,7 @@ public class FileLevelChecks {
 			while(matcher.find()){
 				commentCount++;
 			}
-			System.out.println("\tHow many comments: " + commentCount);
+			write("\tHow many comments: " + commentCount);
 			
 			
 			//Check comment density, at least 1 per method 
@@ -32,24 +33,24 @@ public class FileLevelChecks {
 			while(matcher.find()){
 				methodCount++;
 			}
-			System.out.println("\tHow many methods: " + methodCount);
+			write("\tHow many methods: " + methodCount);
 			
 			if(methodCount>commentCount){
-				System.out.println("\tMethods without comments detected.");
+				write("\tMethods without comments detected.");
 			}
 			
 			//Check variable names
 			regex = Pattern.compile("\\s(boolean|byte|char|short|int|long|float|double|Scanner)\\s[A-Z]\\w+");
 			matcher = regex.matcher(content);
 			while(matcher.find()){
-				System.out.println("\tVariables with bad capitalization detected: "+matcher.group());
+				write("\tVariables with bad capitalization detected: "+matcher.group());
 			}
 			
 			//Check class name format
 			regex = Pattern.compile("(class)\\s[a-z]\\w+");
 			matcher = regex.matcher(content);
 			while(matcher.find()){
-				System.out.println("\tClass with bad capitalization detected."+(matcher.group()));
+				write("\tClass with bad capitalization detected."+(matcher.group()));
 			}
 
 			//Get class name for reflection
@@ -67,11 +68,11 @@ public class FileLevelChecks {
 				className = (matcher.group().replace("package ", "") + "." + className);
 			}
 			
-			System.out.println("Identifiers: ");
+			write("Identifiers: ");
 			regex = Pattern.compile("\\s(boolean|byte|char|short|int|long|float|double|Scanner|class)\\s\\w+");
 			matcher = regex.matcher(content);
 			while(matcher.find()){
-				System.out.println("\t"+matcher.group().trim());
+				write("\t"+matcher.group().trim());
 			}
 			return className;
 			
