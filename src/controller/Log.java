@@ -11,6 +11,7 @@ public class Log {
 	private static String path = "runLog.txt";
 	private static String volatileLog = "";
 	public static void write(String s){
+		System.out.println(s);
 		volatileLog += s+"\n";
 	}
 	public static boolean flushToFile(){

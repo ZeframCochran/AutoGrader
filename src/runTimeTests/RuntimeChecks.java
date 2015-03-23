@@ -1,4 +1,4 @@
-package tests;
+package runTimeTests;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

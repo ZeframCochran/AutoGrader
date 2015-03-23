@@ -2,11 +2,9 @@ package controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import tests.SourcecodeTest;
 
-import tests.FileLevelChecks;
-import tests.RuntimeChecks;
-
+import runTimeTests.RuntimeChecks;
+import sourceTests.FileLevelChecks;
 import static controller.Log.*;
 
 public class GradingController {
