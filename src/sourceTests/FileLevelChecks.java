@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tests.SourcecodeTest;
-import static controller.Log.*;
+import static view.Log.*;
 
 public class FileLevelChecks {
 
@@ -20,19 +20,19 @@ public class FileLevelChecks {
 			tests.add(new MethodCount());
 			tests.add(new CommentDensity());
 			tests.add(new CheckIdentifiers());
+			tests.add(new IdentifierPrint());
 
-			//Currently using this to check identifier quality until I find a way to automate it
-			write("Identifiers: ");
-			Pattern regex = Pattern.compile("\\s(boolean|byte|char|short|int|long|float|double|Scanner|class)\\s\\w+");
-			Matcher matcher = regex.matcher(sourceCode);
-			while(matcher.find()){
-				write("\t"+matcher.group().trim());
+			for(SourcecodeTest t:tests){
+				t.setUp();
+				t.test(sourceCode);
+				t.tearDown();
 			}
+			
 
 			//Get class name for reflection
 			String className = "";
-			regex = Pattern.compile("(class)\\s\\w+");
-			matcher = regex.matcher(sourceCode);
+			Pattern regex = Pattern.compile("(class)\\s\\w+");
+			Matcher matcher = regex.matcher(sourceCode);
 			if(matcher.find()){
 				className += (matcher.group().replace("class ", ""));
 			}

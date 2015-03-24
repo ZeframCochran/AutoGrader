@@ -7,8 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
-import controller.Log;
+import view.Log;
 
 public class StudentNameProvided extends tests.SourcecodeTest {
 

@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import view.Log;
 
-public class MethodCount extends tests.SourcecodeTest {
+public class IdentifierPrint extends tests.SourcecodeTest {
 
 	@Before
 	public void setUp() throws Exception {
@@ -25,13 +25,14 @@ public class MethodCount extends tests.SourcecodeTest {
 
 	@Test
 	public void test(String sourceCode) {
-		Pattern regex = Pattern.compile("public static \\w+\\s\\w+\\(.*\\)");
+		//Currently using this to check identifier quality manually until I find a way to automate it
+		write("Identifiers: ");
+		Pattern regex = Pattern.compile("\\s(boolean|byte|char|short|int|long|float|double|Scanner|class)\\s\\w+");
 		Matcher matcher = regex.matcher(sourceCode);
-		int methodCount = 0;
 		while(matcher.find()){
-			methodCount++;
+			write("\t"+matcher.group().trim());
 		}
-		write("\tMethod count: " + methodCount);
+		
 	}
 
 }

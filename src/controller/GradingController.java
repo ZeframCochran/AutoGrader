@@ -5,7 +5,8 @@ import java.util.Scanner;
 
 import runTimeTests.RuntimeChecks;
 import sourceTests.FileLevelChecks;
-import static controller.Log.*;
+import view.Log;
+import static view.Log.*;
 
 public class GradingController {
 	private static boolean debug = true;

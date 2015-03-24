@@ -1,6 +1,6 @@
 package sourceTests;
 
-import static controller.Log.write;
+import static view.Log.write;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import controller.Log;
+import view.Log;
 
 public class CommentDensity extends tests.SourcecodeTest {
 
