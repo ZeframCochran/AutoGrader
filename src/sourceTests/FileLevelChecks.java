@@ -21,6 +21,7 @@ public class FileLevelChecks {
 			tests.add(new CommentDensity());
 			tests.add(new CheckIdentifiers());
 			tests.add(new IdentifierPrint());
+			tests.add(new IndentCheck());
 
 			for(SourcecodeTest t:tests){
 				t.setUp();

@@ -21,7 +21,7 @@ public class Log {
 			
 			if(file.canWrite()){
 				writeToFile(file);
-				System.out.print("Wrote to: " + file.getAbsolutePath());
+				//System.out.print("Wrote to: " + file.getAbsolutePath());
 				volatileLog = "";
 			}
 			else {
@@ -40,7 +40,7 @@ public class Log {
 		FileOutputStream outStream = new FileOutputStream(file, true);
 		OutputStreamWriter outputWriter = new OutputStreamWriter(outStream);
 	    writer = new BufferedWriter(outputWriter);
-	    writer.write(volatileLog);
+	    //writer.write(volatileLog);
 	    writer.close();
 		return false;
 	}

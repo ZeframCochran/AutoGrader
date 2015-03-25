@@ -30,22 +30,26 @@ public class IndentCheck extends tests.SourcecodeTest {
 		 * Then it finds the next non-blank line and checks that it is indented further
 		 */
 		String[] lines = sourceCode.split("\\n");
-		Pattern braceRegex = Pattern.compile("^.*{\\n");
-		Pattern indentRegex = Pattern.compile("^.*{\\n");
+		Pattern braceRegex = Pattern.compile("^.*\\{\\n");
+		Matcher matcher;
 		for(int line = 0; line < lines.length; line++){
-			Matcher matcher = braceRegex.matcher(lines[line]);
-			if(matcher.find()){
-				getIndentLevel(lines[line]);
+			matcher = braceRegex.matcher(lines[line]);
+			if(matcher.find() && lines[line+1] != null){
+				write(""+lines[line]);
+				int outside = getIndentLevel(lines[line]);
+				int inside =  getIndentLevel(lines[line+1]);
+				if(outside >= inside){
+					write("Bad indent detected: \n"+lines[line]+"\n"+lines[line+1]+"\n");
+				}
 			}
-			write("\t"+matcher.group().trim());
 		}
 		
 	}
 
 	private int getIndentLevel(String line) {
 		int totalLength = line.length();
-		int trimmedLength = line.trim()
-		
+		int trimmedLength = line.trim().length();
+		return(totalLength - trimmedLength);
 	}
 
 }
