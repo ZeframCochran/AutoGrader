@@ -29,6 +29,14 @@ public class IndentCheck extends tests.SourcecodeTest {
 		 * This finds lines ending in { and determines how indented that line was
 		 * Then it finds the next non-blank line and checks that it is indented further
 		 */
+		/*TODO: Get this working for the next assignment.
+		 * Convert all whitespace to spaces.
+		 * Find a { without a } on the same line.
+		 * Match that line against ^\s+
+		 * Check the length of the whitespace
+		 * Find the next line with a \w character not starting with // or within a /** / block
+		 * Match the line against ^\s+, check the intervening line length 
+		 * */
 		String[] lines = sourceCode.split("\\n");
 		Pattern braceRegex = Pattern.compile("^.*\\{\\n");
 		Matcher matcher;

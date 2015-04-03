@@ -19,27 +19,32 @@ import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static view.Log.*;
+
 public class RuntimeChecks {
 	public String checkFile(String file, String className){
-		
-		// Check for compilation
-		System.out.println("Testing compilation..");
-		String result = runProcess("javac " + file);
-		if (result.contains("error")) {
-			System.out.println("\tError compiling: " + file+"\n"+result);
-		}
-		else{
-			System.out.println("\tCompiled without error\n");
-		}
-
 		
 		Pattern regex = Pattern.compile("(.+\\/)(?!\\/\\w+.java)");
 		Matcher matcher = regex.matcher(file);
 		matcher.find();
-		//diff output
+		
 		String folder = matcher.group();
 		ByteArrayOutputStream printlnOutput = new ByteArrayOutputStream();
 		
+		// Check for compilation: Could not get javac to escape the paths involved with backslashes or quotes. Ignoring for now, will do this with a bash script.
+		/*
+		System.out.println("Compile: "+file.replace(" ", "\\ "));
+		String result = runProcess("javac -classpath \"" + folder + "\" \"" + file+"\"");
+		if (result.contains("stderr")) {
+			write("\t-50% Error compiling: " + file+"\n"+result);
+			deductPoints(50);
+		}
+		else{
+			write("\tCompiled without error\n");
+			write(result);
+		}
+		*/
+
 		
 		File f = new File(folder);
 		Class<?> shell = null;
@@ -54,11 +59,12 @@ public class RuntimeChecks {
 		    shell = cl.loadClass(className);
 		    ((Closeable) cl).close();
 		} catch (MalformedURLException e) {
-			System.out.println("bad url "+folder);
+			e.printStackTrace();
+			write("Could not understand the file path: "+folder);
 		} catch (ClassNotFoundException e) {
-			System.out.println("Class not found"+folder+className);
+			write("Class not found in "+folder+"\n\t"+className);
 		} catch (IOException e) {
-			System.out.println("Failed to close the classloader. Cause unknown: ");
+			write("Failed to close the classloader. Cause unknown: ");
 			e.printStackTrace();
 		}
 		
@@ -66,22 +72,36 @@ public class RuntimeChecks {
 		String fakeInput = "1\nJerod\nEwert\n1000\n25\n6.5\n100\n";
 		
 		try {
+
 			Method[] methods = shell.getDeclaredMethods();
+			String output = "";
+			PrintStream oldPs = System.out;
 			for(Method m: methods){
 				if("main".equals(m.getName())){
-					PrintStream oldPs = System.out;
 					PrintStream ps = new PrintStream(printlnOutput);
-					Object in = System.in;
+					InputStream in = System.in;
+					
 					System.setOut(ps);
 					System.setIn(new ByteArrayInputStream(fakeInput.getBytes(StandardCharsets.UTF_8)));
-					m.invoke();
+					
+					m.invoke(null, "Unused");
+					
 					System.setOut(oldPs);
-					Sytem.setIn()
-					String output = printlnOutput.toString(""+StandardCharsets.UTF_8);
+					System.setIn(in);
+					
+					output = printlnOutput.toString(""+StandardCharsets.UTF_8);
 					if(output.contains("10713.0")){
 						System.out.println("\tPassed: Example Input Gives correct output");
 					}
 				}
+				
+			}
+			System.setOut(oldPs);
+			output = printlnOutput.toString(""+StandardCharsets.UTF_8);
+			if(!output.contains("10713.0")){
+				write("\t-20% Due to: Example Input (null, 100,25,6.5,1000) Gives wrong output"
+						+"\n\tShould contain: 10713.0");
+				deductPoints(20);
 			}
 		} catch(Exception e){
 			write("The standard script caused an exception.");

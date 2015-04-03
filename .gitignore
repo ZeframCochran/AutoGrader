@@ -3,4 +3,6 @@ bin/
 *.class
 !.classpath
 !.project
+*.log
+*.txt
 

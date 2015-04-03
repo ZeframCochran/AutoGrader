@@ -1,6 +1,6 @@
 package sourceTests;
 
-import static view.Log.write;
+import static view.Log.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,12 +25,25 @@ public class IdentifierPrint extends tests.SourcecodeTest {
 
 	@Test
 	public void test(String sourceCode) {
-		//Currently using this to check identifier quality manually until I find a way to automate it
-		write("Identifiers: ");
-		Pattern regex = Pattern.compile("\\s(boolean|byte|char|short|int|long|float|double|Scanner|class)\\s\\w+");
+		Pattern regex = Pattern.compile("\\s*(boolean|byte|char|short|int|long|float|double|Scanner|public class)\\s\\w+");
 		Matcher matcher = regex.matcher(sourceCode);
+		String def = "";
+		String name = "";
 		while(matcher.find()){
-			write("\t"+matcher.group().trim());
+			def = matcher.group().trim();
+			int space = def.indexOf(' ');
+			if(space >= 0){
+				name = def.substring(0,def.indexOf(' '));
+				if(name.length() < 2){
+					write("-2% Short identifier detected. What does "+name+" hold?");
+					deductPoints(2);
+				}
+			}
+			else {
+				write("Weird definition: "+def+" human attention needed.");
+				flushToFile();
+				System.exit(0);
+			}
 		}
 		
 	}

@@ -1,4 +1,4 @@
-package runTimeTest;
+package runTimeTests;
 
 import static view.Log.write;
 
@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import view.Log;
 
-public class ExampleInputHW1 extends tests.runTimeTest {
+public class ExampleInputHW1 implements tests.RuntimeTest {
 
 	@Before
 	public void setUp() throws Exception {

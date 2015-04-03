@@ -1,5 +1,7 @@
 package sourceTests;
 
+import static view.Log.deductPoints;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +29,14 @@ public class StudentNameProvided extends tests.SourcecodeTest {
 		Pattern regex = Pattern.compile("([A-Z])\\w+\\s([A-Z])\\w+",0);
 		Matcher matcher = regex.matcher(sourceCode);
 		matcher.find();
-		Log.write("\tName: "+matcher.group().trim());
+		if(matcher.group() == null){
+			Log.write("\t-10% Name not capitalized or not present.");
+			deductPoints(10);
+		}
+		String name = matcher.group().trim();
+		Log.setLogPath(name.replace(" ", "_")+".log");
+		Log.write("\n\tName: " + name);
+		Log.setName(name);
 	}
 
 }

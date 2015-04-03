@@ -1,5 +1,6 @@
 package sourceTests;
 
+import static view.Log.deductPoints;
 import static view.Log.write;
 
 import java.util.regex.Matcher;
@@ -40,7 +41,8 @@ public class CommentDensity extends tests.SourcecodeTest {
 		}
 		
 		if(methodCount>commentCount){
-			write("\tMethods without comments detected.");
+			write("\t-20% Methods without comments detected");
+			deductPoints(20);
 		}
 		
 	}

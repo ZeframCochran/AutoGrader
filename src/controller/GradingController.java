@@ -9,18 +9,15 @@ import view.Log;
 import static view.Log.*;
 
 public class GradingController {
-	private static boolean debug = true;
+	private static boolean debug = false;
 	/*Instructor's Criteria:(Checking method)
-	 	1. Your program’s output must match the sample output provided (whitespace agnostic)
+	 	1. Your program’s output must match the sample output provided (whitespace agnostic) 30%
 		2. Proper logic (Check for method call in main?)
-		3. Proper variable naming (regex)
-		4. Proper indentation (not sure.)
-			Regex to check indent level of any line ending in { or if()END\n!{ or for()END\n!{
-			Regex to check indent of the next non-blank line
-			Must be more than the previous line
-		5. Proper use of methods (uses printtable method?)
-		6. Proper use of comments (Good comment density)
-		7. Must provide comments at the beginning of your program with the following information
+		3. Proper variable naming (regex) %20
+		4. Proper indentation (not on the first hw.)
+		5. Proper use of methods (uses printtable method?) %20
+		6. Proper use of comments (Good comment density) %20
+		7. Must provide comments at the beginning of your program with the following information %10
 		Name
 		Date created
 		 HW#
@@ -73,14 +70,16 @@ public class GradingController {
 		
 		
 		for(int i = 0 ; i < args.length; i++){
+			write("---------------------New Student!");
 			String filename = args[i];
 			FileLevelChecks flc = new FileLevelChecks(); 
 			RuntimeChecks rtc = new RuntimeChecks();
 			
 			String content = getFileContent(filename);
 			String className = flc.check(content);
+			rtc.checkFile(filename, className);
 			
-			write("Runtime check result: " + rtc.checkFile(filename, className));
+			write(Log.getName()+", "+Log.getScore());
 
 			Log.flushToFile();
 		}
