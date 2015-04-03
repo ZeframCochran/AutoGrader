@@ -63,28 +63,28 @@ public class RuntimeChecks {
 		}
 		
 		//Setup fake input
-		String fakeInput = "";
-		System.setIn(new ByteArrayInputStream(fakeInput.getBytes(StandardCharsets.UTF_8)));
+		String fakeInput = "1\nJerod\nEwert\n1000\n25\n6.5\n100\n";
+		
 		try {
-			//Object instance = shell.newInstance();
 			Method[] methods = shell.getDeclaredMethods();
 			for(Method m: methods){
-				if("printTable".equals(m.getName())){
+				if("main".equals(m.getName())){
 					PrintStream oldPs = System.out;
 					PrintStream ps = new PrintStream(printlnOutput);
+					Object in = System.in;
 					System.setOut(ps);
-					m.invoke(null, 100,25,6.5,1000);
+					System.setIn(new ByteArrayInputStream(fakeInput.getBytes(StandardCharsets.UTF_8)));
+					m.invoke();
 					System.setOut(oldPs);
+					Sytem.setIn()
 					String output = printlnOutput.toString(""+StandardCharsets.UTF_8);
 					if(output.contains("10713.0")){
 						System.out.println("\tPassed: Example Input Gives correct output");
 					}
 				}
 			}
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+		} catch(Exception e){
+			write("The standard script caused an exception.");
 		}
 
 		return file;
