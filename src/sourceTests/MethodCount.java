@@ -31,7 +31,6 @@ public class MethodCount extends tests.SourcecodeTest {
 		while(matcher.find()){
 			methodCount++;
 		}
-		write("\tMethod count: " + methodCount);
 	}
 
 }

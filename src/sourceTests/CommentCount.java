@@ -31,7 +31,6 @@ public class CommentCount extends tests.SourcecodeTest {
 		while(matcher.find()){
 			commentCount++;
 		}
-		write("\tComment count: " + commentCount);
 	}
 
 }

@@ -49,12 +49,12 @@ public class ShowInterestShell {
     	out("Enter the amount of your yearly deposit:");
     	yearlyDepositAmount = kb.nextDouble();
     	
-    	printTable(yearlyDepositAmount, years, interestRate, initialDeposit);
+    	printTable("name", yearlyDepositAmount, years, interestRate, initialDeposit);
     	
     }
     
 	//This method prints a table of our projected bank account with interest. 
-	public static void printTable(double yearlyDeposit, int years, double rate,double balance) 
+	public static void printTable(String name, double yearlyDeposit, int years, double rate,double balance) 
 	{
 		double interestRate = rate/100;
 		double interest;

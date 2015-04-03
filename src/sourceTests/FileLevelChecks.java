@@ -13,15 +13,16 @@ public class FileLevelChecks {
 	public String check(String sourceCode) {
 		try {
 			
-			ArrayList<SourcecodeTest> tests = new ArrayList<SourcecodeTest>();//[tests.SourcecodeTest] StudentNameProvided;
-			
+			ArrayList<SourcecodeTest> tests = new ArrayList<SourcecodeTest>();//[tests.SourcecodeTest] StudentNameProvided;			
 			tests.add(new StudentNameProvided());
 			tests.add(new CommentCount());
 			tests.add(new MethodCount());
 			tests.add(new CommentDensity());
 			tests.add(new CheckIdentifiers());
 			tests.add(new IdentifierPrint());
-			tests.add(new IndentCheck());
+			
+			
+			//tests.add(new IndentCheck());
 
 			for(SourcecodeTest t:tests){
 				t.setUp();
@@ -32,10 +33,11 @@ public class FileLevelChecks {
 
 			//Get class name for reflection
 			String className = "";
-			Pattern regex = Pattern.compile("(class)\\s\\w+");
+			Pattern regex = Pattern.compile("public\\s+class\\s\\w+");
 			Matcher matcher = regex.matcher(sourceCode);
 			if(matcher.find()){
-				className += (matcher.group().replace("class ", ""));
+				className = (matcher.group().replace("public class ", ""));
+				className = className.trim();
 			}
 			
 			//Get package name for reflection

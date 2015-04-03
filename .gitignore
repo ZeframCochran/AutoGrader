@@ -1,4 +1,6 @@
-/bin
-.classpath
-.project
+!.gitignore
+bin/
+*.class
+!.classpath
+!.project
 

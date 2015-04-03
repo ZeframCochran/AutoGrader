@@ -19,27 +19,32 @@ import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static view.Log.*;
+
 public class RuntimeChecks {
 	public String checkFile(String file, String className){
-		
-		// Check for compilation
-		System.out.println("Testing compilation..");
-		String result = runProcess("javac " + file);
-		if (result.contains("error")) {
-			System.out.println("\tError compiling: " + file+"\n"+result);
-		}
-		else{
-			System.out.println("\tCompiled without error\n");
-		}
-
 		
 		Pattern regex = Pattern.compile("(.+\\/)(?!\\/\\w+.java)");
 		Matcher matcher = regex.matcher(file);
 		matcher.find();
-		//diff output
+		
 		String folder = matcher.group();
 		ByteArrayOutputStream printlnOutput = new ByteArrayOutputStream();
 		
+		// Check for compilation: Could not get javac to escape the paths involved with backslashes or quotes. Ignoring for now, will do this with a bash script.
+		/*
+		System.out.println("Compile: "+file.replace(" ", "\\ "));
+		String result = runProcess("javac -classpath \"" + folder + "\" \"" + file+"\"");
+		if (result.contains("stderr")) {
+			write("\t-50% Error compiling: " + file+"\n"+result);
+			deductPoints(50);
+		}
+		else{
+			write("\tCompiled without error\n");
+			write(result);
+		}
+		*/
+
 		
 		File f = new File(folder);
 		Class<?> shell = null;
@@ -54,37 +59,91 @@ public class RuntimeChecks {
 		    shell = cl.loadClass(className);
 		    ((Closeable) cl).close();
 		} catch (MalformedURLException e) {
-			System.out.println("bad url "+folder);
+			e.printStackTrace();
+			write("Could not understand the file path: "+folder);
 		} catch (ClassNotFoundException e) {
-			System.out.println("Class not found"+folder+className);
+			write("Class not found in "+folder+"\n\t"+className);
 		} catch (IOException e) {
-			System.out.println("Failed to close the classloader. Cause unknown: ");
+			write("Failed to close the classloader. Cause unknown: ");
 			e.printStackTrace();
 		}
 		
 		//Setup fake input
-		String fakeInput = "";
-		System.setIn(new ByteArrayInputStream(fakeInput.getBytes(StandardCharsets.UTF_8)));
+		String fakeInput = "Hey";
+		//System.setIn(new ByteArrayInputStream(fakeInput.getBytes(StandardCharsets.UTF_8)));
 		try {
-			//Object instance = shell.newInstance();
+			boolean found = false;
 			Method[] methods = shell.getDeclaredMethods();
+			String output = "";
+			PrintStream oldPs = System.out;
 			for(Method m: methods){
 				if("printTable".equals(m.getName())){
-					PrintStream oldPs = System.out;
+					found = true;
 					PrintStream ps = new PrintStream(printlnOutput);
 					System.setOut(ps);
-					m.invoke(null, 100,25,6.5,1000);
-					System.setOut(oldPs);
-					String output = printlnOutput.toString(""+StandardCharsets.UTF_8);
-					if(output.contains("10713.0")){
-						System.out.println("\tPassed: Example Input Gives correct output");
+					if(m.getParameterTypes().length < 4){
+						throw new IllegalArgumentException("Method does not take at least 4 parameters.");
+					}
+					else if(m.getParameterTypes().length == 4 ){
+						try{
+							m.invoke(null, 100.0, 25, 6.5, 1000.0);
+						}
+						catch(Exception e){
+							System.setOut(oldPs);
+							throw e;
+						}
+					}
+					else if (m.getParameterTypes().length == 5) {
+						try{
+							m.invoke(null, "NotUsed", 100.0, 25, 6.5, 1000.0);
+						}
+						catch(Exception e){
+							System.setOut(oldPs);
+							throw e;
+						}
 					}
 				}
+				
 			}
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			System.setOut(oldPs);
+			output = printlnOutput.toString(""+StandardCharsets.UTF_8);
+			if(!output.contains("10713.0")){
+				write("\t-20% Due to: Example Input (null, 100,25,6.5,1000) Gives wrong output"
+						+"\n\tShould contain: 10713.0");
+				deductPoints(20);
+			}
+			if(!found){
+				write("\t-30% Due to: missing printTable method required by assignment.");
+				write("Flagged for human attention: "+file);
+				flushToFile();
+				deductPoints(30);
+				
+				System.exit(0);
+			}
+		} catch (IllegalAccessException e){
+			write("Flagged for human attention: "+file);
+			flushToFile();
 			e.printStackTrace();
+			System.exit(0);
+		} catch ( InvocationTargetException e) {
+			write("Flagged for human attention: "+file);
+			flushToFile();
+			e.printStackTrace();
+			System.exit(0);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+		} catch (NullPointerException n){
+			write("Could not load methods from the class: " + className);
+			write("Flagged for human attention: "+file);
+			flushToFile();
+			System.exit(0);
+			
+		} catch (IllegalArgumentException e){
+			write("\t-10 %Modified method header");
+			flushToFile();
+			deductPoints(10);
+			write("Flagged for human attention: "+file);
+			System.exit(0);
 		}
 
 		return file;

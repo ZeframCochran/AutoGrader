@@ -1,6 +1,6 @@
 package sourceTests;
 
-import static view.Log.write;
+import static view.Log.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,14 +29,16 @@ public class CheckIdentifiers extends tests.SourcecodeTest {
 		Pattern regex = Pattern.compile("\\s(boolean|byte|char|short|int|long|float|double|Scanner)\\s[A-Z]\\w+");
 		Matcher matcher = regex.matcher(sourceCode);
 		while(matcher.find()){
-			write("\tVariables with bad capitalization detected: "+matcher.group());
+			write("\t-2% These should not be capitalized: "+matcher.group());
+			deductPoints(2);
 		}
 		
 		//Check class name format
 		regex = Pattern.compile("(class)\\s[a-z]\\w+");
 		matcher = regex.matcher(sourceCode);
 		while(matcher.find()){
-			write("\tClass with bad capitalization detected."+(matcher.group()));
+			write("\t-2% This must be capitalized: "+(matcher.group()));
+			deductPoints(2);
 		}
 	}
 
