@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import view.Log;
 
-public class ExampleInputHW1 implements tests.RuntimeTest {
+public class ExampleInputHW1 extends tests.RuntimeTest {
 
 	@Before
 	public void setUp() throws Exception {
@@ -24,19 +24,14 @@ public class ExampleInputHW1 implements tests.RuntimeTest {
 	}
 
 	@Test
-	public void test(String sourceCode) {
-		//Check variable names
-		Pattern regex = Pattern.compile("\\s(boolean|byte|char|short|int|long|float|double|Scanner)\\s[A-Z]\\w+");
-		Matcher matcher = regex.matcher(sourceCode);
-		while(matcher.find()){
-			write("\tVariables with bad capitalization detected: "+matcher.group());
-		}
+	public void test(String result) {
+		String fakeInput = "1\nJerod\nEwert\n1000\n25\n6.5\n100\n";
+		String out = RuntimeChecks.runMain(fakeInput);
 		
-		//Check class name format
-		regex = Pattern.compile("(class)\\s[a-z]\\w+");
-		matcher = regex.matcher(sourceCode);
-		while(matcher.find()){
-			write("\tClass with bad capitalization detected."+(matcher.group()));
+		if(result.contains("")){
+			write("Passed test case 1");
+		} else {
+			write("Failed test case 1: output of your program did not include the correct reponse.");
 		}
 	}
 

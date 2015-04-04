@@ -9,7 +9,7 @@ import view.Log;
 import static view.Log.*;
 
 public class GradingController {
-	private static boolean debug = false;
+	private static boolean debug = !false;
 	/*Instructor's Criteria:(Checking method)
 	 	1. Your program’s output must match the sample output provided (whitespace agnostic) 30%
 		2. Proper logic (Check for method call in main?)
@@ -70,7 +70,7 @@ public class GradingController {
 		
 		
 		for(int i = 0 ; i < args.length; i++){
-			write("---------------------New Student!");
+			write("---------------------");
 			String filename = args[i];
 			FileLevelChecks flc = new FileLevelChecks(); 
 			RuntimeChecks rtc = new RuntimeChecks();
@@ -82,6 +82,7 @@ public class GradingController {
 			write(Log.getName()+", "+Log.getScore());
 
 			Log.flushToFile();
+			write("---------------------");
 		}
 	}
 	public static String getFileContent(String file){

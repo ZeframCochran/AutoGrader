@@ -1,13 +1,11 @@
 package runTimeTests;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
@@ -16,20 +14,24 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import sourceTests.StudentNameProvided;
+import tests.RuntimeTest;
+import tests.SourcecodeTest;
 import static view.Log.*;
 
 public class RuntimeChecks {
 	public String checkFile(String file, String className){
-		
+		System.out.println("Beginning runtime checks.");
 		Pattern regex = Pattern.compile("(.+\\/)(?!\\/\\w+.java)");
 		Matcher matcher = regex.matcher(file);
 		matcher.find();
-		
+		Method main = null;
 		String folder = matcher.group();
-		ByteArrayOutputStream printlnOutput = new ByteArrayOutputStream();
+		
 		
 		// Check for compilation: Could not get javac to escape the paths involved with backslashes or quotes. Ignoring for now, will do this with a bash script.
 		/*
@@ -74,66 +76,71 @@ public class RuntimeChecks {
 		try {
 
 			Method[] methods = shell.getDeclaredMethods();
-			String output = "";
-			PrintStream oldPs = System.out;
+			
+			
 			for(Method m: methods){
 				if("main".equals(m.getName())){
-					PrintStream ps = new PrintStream(printlnOutput);
-					InputStream in = System.in;
-					
-					System.setOut(ps);
-					System.setIn(new ByteArrayInputStream(fakeInput.getBytes(StandardCharsets.UTF_8)));
-					
-					m.invoke(null, "Unused");
-					
-					System.setOut(oldPs);
-					System.setIn(in);
-					
-					output = printlnOutput.toString(""+StandardCharsets.UTF_8);
-					if(output.contains("10713.0")){
-						System.out.println("\tPassed: Example Input Gives correct output");
-					}
-				}
-				
+					main = m;
+					runTests();
+					//TODO: refactor
+					ArrayList<RuntimeTest> tests = new ArrayList<RuntimeTest>();			
+					tests.add(new ExampleInputHW1());
+				} 
 			}
-			System.setOut(oldPs);
-			output = printlnOutput.toString(""+StandardCharsets.UTF_8);
-			if(!output.contains("10713.0")){
-				write("\t-20% Due to: Example Input (null, 100,25,6.5,1000) Gives wrong output"
-						+"\n\tShould contain: 10713.0");
-				deductPoints(20);
-			}
+			
 		} catch(Exception e){
-			write("The standard script caused an exception.");
+			write("The standard script caused an exception."+e.getMessage());
+			e.printStackTrace();
 		}
-
+		System.out.println("Finished runtime checks");
 		return file;
 	}
-	private static String printLines(String name, InputStream ins) throws Exception {
-		String line = null;
-		BufferedReader in = new BufferedReader(new InputStreamReader(ins));
-		String s = "";
-		while ((line = in.readLine()) != null) {
-			s += (name + " " + line);
-		}
-		return s;
+	
+	private void runTests() {
+		
 	}
 
-	private static String runProcess(String command){
+	public String runMain(Method main, String keyboardInput){
+		
+		ByteArrayOutputStream printlnOutput = new ByteArrayOutputStream();
+		PrintStream newPS = new PrintStream(printlnOutput);
+		InputStream oldIn = System.in;
+		PrintStream oldPs = System.out;
+
+		System.setIn(new ByteArrayInputStream(keyboardInput.getBytes(StandardCharsets.UTF_8)));
+		
+		System.setOut(newPS);
+		String[] param = new String[1];
+		Object[] parameters ={param};
+		
 		try{
-		Process process = Runtime.getRuntime().exec(command);
-		
-		String result = printLines(command + " stdout:", process.getInputStream());
-		result += printLines(command + " stderr:", process.getErrorStream());
-		
-		process.waitFor();
-		result += (command + " exitValue() " + process.exitValue());
-		return result;
-		}
-		catch(Exception e){
+			main.invoke( null, parameters );
+		}catch (IllegalAccessException e) {
 			e.printStackTrace();
-			return "Failed to run process: "+command;
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
 		}
-	}
+		System.setOut(oldPs);
+		System.setIn(oldIn);
 
+		String output = "";
+		try {
+			output = printlnOutput.toString(""+StandardCharsets.UTF_8);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		if(output.contains("10713.0")){
+			System.out.println("\tPassed: Example Input Gives correct output");
+		}else{
+			write("\t-20% Due to: Example Input (null, 100,25,6.5,1000) Gives wrong output"
+					+"\n\tShould contain: 10713.0");
+			deductPoints(20);
+		}
+
+		
+		return output;
+	}
 }

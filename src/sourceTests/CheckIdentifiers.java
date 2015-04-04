@@ -31,6 +31,21 @@ public class CheckIdentifiers extends tests.SourcecodeTest {
 		while(matcher.find()){
 			write("\t-2% These should not be capitalized: "+matcher.group());
 			deductPoints(2);
+			
+			String def = matcher.group().trim();
+			int space = def.indexOf(' ');
+			if(space >= 0){
+				String name = def.substring(0,def.indexOf(' '));
+				if(name.length() < 2){
+					write("\t-2% Short identifier detected. What does "+name+" hold?");
+					deductPoints(2);
+				}
+			}
+			else {
+				write("Weird definition: "+def+" human attention needed.");
+				flushToFile();
+				System.exit(0);
+			}
 		}
 		
 		//Check class name format
@@ -40,6 +55,7 @@ public class CheckIdentifiers extends tests.SourcecodeTest {
 			write("\t-2% This must be capitalized: "+(matcher.group()));
 			deductPoints(2);
 		}
+		System.out.println("\tFinished Checking Identifiers");
 	}
 
 }

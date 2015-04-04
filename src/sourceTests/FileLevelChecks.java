@@ -5,22 +5,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tests.SourcecodeTest;
-import static view.Log.*;
 
 public class FileLevelChecks {
 
 
 	public String check(String sourceCode) {
+		System.out.println("Beginning file checks..");
 		try {
 			
-			ArrayList<SourcecodeTest> tests = new ArrayList<SourcecodeTest>();//[tests.SourcecodeTest] StudentNameProvided;			
+			ArrayList<SourcecodeTest> tests = new ArrayList<SourcecodeTest>();			
 			tests.add(new StudentNameProvided());
-			tests.add(new CommentCount());
-			tests.add(new MethodCount());
 			tests.add(new CommentDensity());
 			tests.add(new CheckIdentifiers());
-			tests.add(new IdentifierPrint());
-			
 			
 			//tests.add(new IndentCheck());
 
@@ -46,7 +42,7 @@ public class FileLevelChecks {
 			if(matcher.find()){
 				className = (matcher.group().replace("package ", "") + "." + className);
 			}
-			
+			System.out.println("Finished File checks");
 			return className;
 			
 		} catch (Exception e) {

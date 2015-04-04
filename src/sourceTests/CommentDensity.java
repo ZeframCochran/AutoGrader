@@ -40,6 +40,7 @@ public class CommentDensity extends tests.SourcecodeTest {
 			methodCount++;
 		}
 		
+		System.out.println("\tComment density: "+(methodCount/(double)commentCount));
 		if(methodCount>commentCount){
 			write("\t-20% Methods without comments detected");
 			deductPoints(20);

@@ -1,7 +1,7 @@
 package tests;
 
-public interface RuntimeTest {
-	public void setUp() throws Exception;
-	public void tearDown() throws Exception;
-	public void test(String className);
+public abstract class RuntimeTest {
+	public abstract void setUp() throws Exception;
+	public abstract void tearDown() throws Exception;
+	public abstract void test(String sourceCode);
 }
