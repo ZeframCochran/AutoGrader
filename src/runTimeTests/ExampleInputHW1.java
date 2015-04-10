@@ -1,10 +1,6 @@
 package runTimeTests;
 
 import static view.Log.write;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,12 +20,12 @@ public class ExampleInputHW1 extends tests.RuntimeTest {
 	}
 
 	@Test
-	public void test(String result) {
+	public void test() {
 		String fakeInput = "1\nJerod\nEwert\n1000\n25\n6.5\n100\n";
 		String out = RuntimeChecks.runMain(fakeInput);
 		
-		if(result.contains("")){
-			write("Passed test case 1");
+		if(out.contains("")){
+			write("Passed exampleInput test case");
 		} else {
 			write("Failed test case 1: output of your program did not include the correct reponse.");
 		}
