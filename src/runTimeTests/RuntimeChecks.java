@@ -23,7 +23,6 @@ import static view.Log.*;
 public class RuntimeChecks {
 	private static Method main = null;
 	public String checkFile(String file, String className){
-		System.out.println("Beginning runtime checks.");
 		Pattern regex = Pattern.compile("(.+\\/)(?!\\/\\w+.java)");
 		Matcher matcher = regex.matcher(file);
 		matcher.find();
@@ -60,7 +59,6 @@ public class RuntimeChecks {
 			write("The standard script caused an exception."+e.getMessage());
 			e.printStackTrace();
 		}
-		System.out.println("Finished runtime checks");
 		return file;
 	}
 	
@@ -92,10 +90,11 @@ public class RuntimeChecks {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		
 		System.setOut(oldPs);
 		System.setIn(oldIn);
 
-		String output = "";
+		String output = printlnOutput.toString();
 		return output;
 	}
 }

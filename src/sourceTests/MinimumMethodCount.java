@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import view.Log;
 
-public class StudentNameProvided extends tests.SourcecodeTest {
+public class MinimumMethodCount extends tests.SourcecodeTest {
 
 	@Before
 	public void setUp() throws Exception {
@@ -26,20 +26,22 @@ public class StudentNameProvided extends tests.SourcecodeTest {
 
 	@Test
 	public void test(String sourceCode) {
-		//Get student name
-		Pattern regex = Pattern.compile("([A-Z])\\w+\\s([A-Z])\\w+",0);
+		Pattern regex = Pattern.compile("(void|boolean|byte|char|short|int|long|float|double|Scanner)\\s+\\w+\\s*\\(");
 		Matcher matcher = regex.matcher(sourceCode);
-		matcher.find();
-		if(matcher.group() == null){
-			Log.write("\t-10% Name not capitalized or not present.");
-			deductPoints(10);
-		}else{
-			write("Passed test: Name provided.");
+		int methodCount = 0;
+		
+		while(matcher.find()){
+			methodCount++;
 		}
-		String name = matcher.group().trim();
-		Log.setLogPath(name.replace(" ", "_")+".log");
-		Log.write("\n\tName: " + name);
-		Log.setName(name);
+		
+		if(methodCount < 2){
+			write("\t-100% You MUST have at least 2 methods including main.");
+			deductPoints(100);
+		}
+		else{
+			write("Passed test: MinimumMethodCount");
+		}
+		
 	}
 
 }

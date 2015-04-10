@@ -9,7 +9,7 @@ import view.Log;
 import static view.Log.*;
 
 public class GradingController {
-	private static boolean debug = !false;
+	private static boolean debug = false;
 	/*Instructor's Criteria:(Checking method)
 	 	1. Your program’s output must match the sample output provided (whitespace agnostic) 30%
 		2. Proper logic (Check for method call in main?)
@@ -25,33 +25,6 @@ public class GradingController {
 		8. You are not allowed to change any of the method’s headers
 		9. Programs written without (at least 2) methods will receive zero points
 		*/
-	/*
-	 * Main task: Support instructor's criteria
-	 * 		Break unit tests into separate classes.
-	Load the student work
-		For each solution:
-			File level:
-				Done: Check for file existence at the top level instead of every lower place.
-				Done: Compile
-				Done: Get student name
-				Done: Check file for comments before each method
-				Done: Check case of variable and class names
-				Done: List variable type and name for human grading
-			
-			Java level:
-				Done: Detect package and class name.
-				Unit test methods/Diff output
-					show result.
-				Verify at least 1 additional method exists with reflection
-					Call the printTable method and compare output to expected
-						Several tests would be nice.
-						Instructor's example first:
-							"25	648.0		100.0	10713.0"
-					Call main method and
-			misc:
-				Generate a report. maybe learn l4j.
-				Create unit tests instead of current structure.
-	*/
 	public static void main(String[] args){
 		
 		if(debug){

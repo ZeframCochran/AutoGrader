@@ -39,6 +39,8 @@ public class CheckIdentifiers extends tests.SourcecodeTest {
 				if(name.length() < 2){
 					write("\t-2% Short identifier detected. What does "+name+" hold?");
 					deductPoints(2);
+				}else{
+					write("Passed test: Variable names not capitalized.");
 				}
 			}
 			else {
@@ -49,13 +51,14 @@ public class CheckIdentifiers extends tests.SourcecodeTest {
 		}
 		
 		//Check class name format
-		regex = Pattern.compile("(class)\\s[a-z]\\w+");
+		regex = Pattern.compile("public\\s(class)\\s[a-z]\\w+");
 		matcher = regex.matcher(sourceCode);
-		while(matcher.find()){
+		if(matcher.find()){
 			write("\t-2% This must be capitalized: "+(matcher.group()));
 			deductPoints(2);
+		}else{
+			write("Passed test: Class must be capitalized.");
 		}
-		System.out.println("\tFinished Checking Identifiers");
 	}
 
 }
