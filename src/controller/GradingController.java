@@ -11,13 +11,13 @@ import static view.Log.*;
 public class GradingController {
 	private static boolean debug = false;
 	/*Instructor's Criteria:(Checking method)
-	 	1. Your program’s output must match the sample output provided (whitespace agnostic) 30%
+	 	1. Your program’s output must match the sample output provided (whitespace agnostic)
 		2. Proper logic (Check for method call in main?)
-		3. Proper variable naming (regex) %20
+		3. Proper variable naming (regex)
 		4. Proper indentation (not on the first hw.)
-		5. Proper use of methods (uses printtable method?) %20
-		6. Proper use of comments (Good comment density) %20
-		7. Must provide comments at the beginning of your program with the following information %10
+		5. Proper use of methods (uses printtable method?)
+		6. Proper use of comments (Good comment density)
+		7. Must provide comments at the beginning of your program with the following information
 		Name
 		Date created
 		 HW#
